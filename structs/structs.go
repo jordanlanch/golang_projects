@@ -1,4 +1,4 @@
-package bucle
+package structs
 
 import (
 	"fmt"
