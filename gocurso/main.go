@@ -3,6 +3,9 @@ package main
 import (
 	"fmt"
 	"math"
+	"math/rand"
+	"strings"
+	"time"
 )
 
 const helloWorld string = "Hola %s %s, Bienvenido al fascinante mundo de Go\n"
@@ -17,14 +20,24 @@ func main() {
 	)
 	fmt.Printf(helloWorld, name, lastname)
 	fmt.Printf("%b %s %t\n", a, b, c)
-	getFloatMax()
-	countWords()
+	//getFloatMax()
+	//countWords()
+	array()
+	slice()
+	var number int
+	fmt.Println("Ingrese un número del 1 al 10: ")
+	fmt.Scanf("%d\n", &number)
+	ifTest(number)
+	//guess()
+	//threeFors()
+	stringLibrary()
+	switchTest()
 }
 func getName() string {
 	var name string
 	name = "Sin Nombre"
 	fmt.Print("Ingresa tu nombre:")
-	fmt.Scanf("%s", &name)
+	fmt.Scanf("%s\n", &name)
 	return name
 }
 
@@ -32,7 +45,7 @@ func getLastName() string {
 	var lastname string
 	lastname = "Sin Apellido"
 	fmt.Print("Ingresa tu Apellido:")
-	fmt.Scanf("%s", &lastname)
+	fmt.Scanf("%s\n", &lastname)
 	return lastname
 }
 func getFloatMax() {
@@ -64,4 +77,132 @@ func getFloatMax() {
 }
 func countWords() {
 	fmt.Println(string("Hola"[3]))
+	fmt.Println("la cantidad de palabras de hola es ", len("hola"))
+}
+func array() {
+	// vat name[size] type
+	var array [3]string
+	fmt.Println(array)    // [ ]
+	fmt.Println(array[0]) // 'Nothing'
+	// Initialization
+	array[0] = "First"
+	array[1] = "Second"
+	array[2] = "Thrid"
+	fmt.Println(array)
+	fmt.Println(array[0]) // First
+
+	array[2] = "Last"
+	fmt.Println("array forma larga", array) // [First Second Last]
+
+	arr2 := [3]int{1, 2, 3}
+	fmt.Println("array forma corta", arr2)
+}
+
+func slice() {
+	// var name []type
+	var slice []string
+	fmt.Println(slice) // []
+	// Initialization
+	slice = append(slice, "First")
+	fmt.Println(slice[0]) // First
+	slice = append(slice, "Second")
+	fmt.Println(slice) // [First Second]
+
+	slice[0] = "One"
+	fmt.Println(slice) // [One Second]
+}
+
+func ifTest(number int) {
+	if number > 0 || number < 10 {
+		if number%2 == 0 {
+			fmt.Println("El número es par")
+		} else {
+			fmt.Println("El número es impar")
+		}
+	} else {
+		fmt.Println("ERROR | El número ingresado está fuera del rango solicitado.")
+	}
+
+	if numer2 := 3; numer2 == 3 {
+		fmt.Println("Entró al condicional")
+
+	}
+}
+func guess() {
+	var number int
+	source := rand.NewSource(time.Now().UnixNano())
+	random := rand.New(source)
+	secret := random.Intn(10)
+	// fmt.Println(secret)
+
+	for i := 0; i < 10; i++ {
+		fmt.Print("Guess de number (1 - 10): ")
+		fmt.Scanf("%d", &number)
+		if number == secret {
+			fmt.Println("Correct!")
+			break
+		} else {
+			fmt.Println("Worng!")
+		}
+	}
+}
+
+func threeFors() {
+	// 1. Normal version
+	fmt.Println("For, normal version")
+	for i := 0; i < 100; i += 10 {
+		fmt.Println(i)
+	}
+	// 2. While version
+	fmt.Println("For, while version")
+	i := 100
+	for i > 0 {
+		i -= 10
+		fmt.Println(i)
+	}
+	// 3. Infinite version
+	fmt.Println("For, infinite version")
+	j := 0
+	for {
+		j++
+		fmt.Println(j)
+		if j == 10 {
+			fmt.Println("The end!")
+			break
+		}
+	}
+}
+
+func stringLibrary() {
+	text := "Hello world. Hello Platzi. Hello Go"
+	// To uppercase
+	fmt.Println(strings.ToUpper(text))
+	// To lowercase
+	fmt.Println(strings.ToLower(text))
+	// Replace(string-to-modified, old-string, new-string, times-to-replace)
+	fmt.Println(strings.Replace(text, "Hello", "Hi", -1))
+	// Replace only first
+	fmt.Println(strings.Replace(text, "Hello", "Hi", 1))
+	// string => slice
+	fmt.Println(strings.Split(text, "."))
+}
+
+func switchTest() {
+	var number int
+	fmt.Print("Type a number: ")
+	fmt.Scanf("%d", &number)
+
+	switch number {
+	case 1:
+		fmt.Println("The number is 1")
+	default:
+		fmt.Println("The number isn't 1")
+	}
+
+	switch {
+	case number%2 == 0:
+		fmt.Println("The number is pair")
+	default:
+		fmt.Println("The number is odd")
+	}
 }
