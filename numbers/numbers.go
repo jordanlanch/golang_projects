@@ -1,6 +1,7 @@
 package numbers
 
 import (
+	"errors"
 	"fmt"
 	"math"
 )
@@ -32,4 +33,18 @@ func GetFloatMax() {
 
 	fmt.Printf("Max Float32 = %f.\n", maxFloat32)
 	fmt.Println("Max Float64 =", maxFloat64)
+}
+
+//Sum  con validacion de errores
+func Sum(a interface{}, b interface{}) (int, error) {
+	switch a.(type) {
+	case string:
+		return 0, errors.New("El valor A es un string")
+	}
+
+	switch b.(type) {
+	case string:
+		return 0, errors.New("El valor B es un string")
+	}
+	return a.(int) + b.(int), nil
 }

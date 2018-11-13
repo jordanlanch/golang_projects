@@ -52,3 +52,27 @@ func ThreeFors() {
 		}
 	}
 }
+
+//PlatziCourse -- STRUCTS --  struct
+type PlatziCourse struct {
+	Name   string
+	Slug   string // url del curso
+	Skills []string
+}
+
+//PlatziCareer struct
+type PlatziCareer struct {
+	Name   string
+	Slug   string // url de la carrera
+	Skills []string
+}
+
+//Suscribe metodo
+func (p PlatziCourse) Suscribe(name string) {
+	fmt.Printf("El usuario %s, se ha inscripto al curso de %s\n", name, p.Name)
+}
+
+//Suscribe metodo
+func (p PlatziCareer) Suscribe(name string) {
+	fmt.Printf("El usuario %s, se ha inscripto a la carrera de %s\n", name, p.Name)
+}
