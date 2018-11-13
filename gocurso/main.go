@@ -3,7 +3,11 @@ package main
 import (
 	"fmt"
 	"time"
-)
+	/*"github.com/jordanlanch/projects/gocurso/array"
+	"github.com/jordanlanch/projects/gocurso/flow"
+	"github.com/jordanlanch/projects/gocurso/name"
+	"github.com/jordanlanch/projects/gocurso/numbers"
+	"github.com/jordanlanch/projects/gocurso/structs"*/)
 
 const helloWorld string = "Hola %s %s, Bienvenido al fascinante mundo de Go\n"
 
