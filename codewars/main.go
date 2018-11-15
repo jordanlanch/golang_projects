@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"unicode"
 )
 
 func main() {
@@ -108,26 +109,34 @@ func ToNato(words string) string {
 	return r
 }
 
-/**
-func ToNato(words string) string {
-  nato := []string{
-    "Alfa", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot",
-    "Golf", "Hotel", "India", "Juliett", "Kilo", "Lima", "Mike", "November",
-    "Oscar", "Papa", "Quebec", "Romeo", "Sierra", "Tango", "Uniform", "Victor",
-    "Whiskey", "Xray", "Yankee", "Zulu",
-  }
-  charToCharlie := map[rune]string{}
-  for _, value := range nato {
-    charToCharlie[rune(value[0])] = value
-  }
+//ToNatoMejorado
+func ToNatoMejorado(words string) string {
+	nato := []string{
+		"Alfa", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot",
+		"Golf", "Hotel", "India", "Juliett", "Kilo", "Lima", "Mike", "November",
+		"Oscar", "Papa", "Quebec", "Romeo", "Sierra", "Tango", "Uniform", "Victor",
+		"Whiskey", "Xray", "Yankee", "Zulu",
+	}
+	//convierte []string a map[rune]string{}  (rune es un alias de int32)
+	charToCharlie := map[rune]string{}
+	for _, value := range nato {
+		charToCharlie[rune(value[0])] = value
+	}
 
-  result := ""
-  for _, letter := range words {
-    if unicode.IsLetter(letter) {
-      result += charToCharlie[unicode.ToUpper(letter)] + " "
-    } else if unicode.IsPunct(letter) {
-      result += string(letter)
-    }
-  }
-  return strings.TrimSpace(result)
-}**/
+	/*recorre cada letra en un tamaño de range words
+	si es una letra lo adiciona al string result bucando el codigo de la mayuscula en el mapa charTocharlie y concatena un espacio
+	y si no es letra concatene el mismo en string (!)
+	retonar un string sin espacios a la izquierda y derecha
+	*/
+	result := ""
+	for _, letter := range words {
+		//es letra?
+		if unicode.IsLetter(letter) {
+			result += charToCharlie[unicode.ToUpper(letter)] + " "
+			//es signo ?
+		} else if unicode.IsPunct(letter) {
+			result += string(letter)
+		}
+	}
+	return strings.TrimSpace(result)
+}
