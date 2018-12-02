@@ -69,7 +69,7 @@ func receive() {
 }
 
 func initialMigration() {
-	db, err := gorm.Open("sqlite3", "test.db")
+	db, err := gorm.Open("sqlite3", "../db/test.db")
 	if err != nil {
 		fmt.Println(err.Error())
 		panic("failed to connect database")
@@ -81,7 +81,7 @@ func initialMigration() {
 }
 
 func allUsers(w http.ResponseWriter, r *http.Request) {
-	db, err := gorm.Open("sqlite3", "test.db")
+	db, err := gorm.Open("sqlite3", "../db/test.db")
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -102,7 +102,7 @@ func createUser(bytes []byte) {
 	res2B, _ := json.Marshal(&userDecode)
 	fmt.Print("lo que debe ir a la db " + string(res2B))
 
-	db, err := gorm.Open("sqlite3", "test.db")
+	db, err := gorm.Open("sqlite3", "../db/test.db")
 	if err != nil {
 		panic("failed to connect database")
 	}

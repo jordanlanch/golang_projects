@@ -13,6 +13,7 @@ import (
 	"github.com/streadway/amqp"
 )
 
+//User --> Genera schema de la tabla User
 type User struct {
 	gorm.Model
 	Name     string
@@ -63,7 +64,7 @@ func send(b []byte) {
 }
 
 func initialMigration() {
-	db, err := gorm.Open("sqlite3", "test.db")
+	db, err := gorm.Open("sqlite3", "../db/test.db")
 	if err != nil {
 		fmt.Println(err.Error())
 		panic("failed to connect database")
@@ -74,11 +75,13 @@ func initialMigration() {
 	db.AutoMigrate(&User{})
 }
 
+//HashPassword devuelve el Hash
 func HashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	return string(bytes), err
 }
 
+//CheckPasswordHash valida el password
 func CheckPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
