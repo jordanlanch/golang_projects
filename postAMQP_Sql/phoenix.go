@@ -62,45 +62,6 @@ func send(b []byte) {
 	failOnError(err, "Failed to publish a message")
 }
 
-func receive() {
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
-	failOnError(err, "Failed to connect to RabbitMQ")
-	defer conn.Close()
-
-	ch, err := conn.Channel()
-	failOnError(err, "Failed to open a channel")
-	defer ch.Close()
-
-	q, err := ch.QueueDeclare(
-		"hello", // name
-		false,   // durable
-		false,   // delete when unused
-		false,   // exclusive
-		false,   // no-wait
-		nil,     // arguments
-	)
-	failOnError(err, "Failed to declare a queue")
-
-	msgs, err := ch.Consume(
-		q.Name, // queue
-		"",     // consumer
-		true,   // auto-ack
-		false,  // exclusive
-		false,  // no-local
-		false,  // no-wait
-		nil,    // args
-	)
-	failOnError(err, "Failed to register a consumer")
-
-	for d := range msgs {
-		bytes := []byte(d.Body)
-		log.Printf("Received a message: %s", bytes)
-		createUser(bytes)
-		break
-	}
-
-}
-
 func initialMigration() {
 	db, err := gorm.Open("sqlite3", "test.db")
 	if err != nil {
@@ -111,20 +72,6 @@ func initialMigration() {
 
 	// Migrate the schema
 	db.AutoMigrate(&User{})
-}
-
-func allUsers(w http.ResponseWriter, r *http.Request) {
-	db, err := gorm.Open("sqlite3", "test.db")
-	if err != nil {
-		panic("failed to connect database")
-	}
-	defer db.Close()
-
-	var users []User
-	db.Find(&users)
-	fmt.Println("{}", users)
-
-	json.NewEncoder(w).Encode(users)
 }
 
 func HashPassword(password string) (string, error) {
@@ -180,7 +127,6 @@ func hello(w http.ResponseWriter, r *http.Request) {
 
 		b, _ := json.Marshal(&user)
 		send(b)
-		receive()
 
 		fmt.Fprintf(w, "New User Successfully Created")
 
@@ -189,33 +135,9 @@ func hello(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func createUser(bytes []byte) {
-	var userDecode User
-	json.Unmarshal(bytes, &userDecode)
-
-	fmt.Println("New User Endpoint Hit")
-	res2B, _ := json.Marshal(&userDecode)
-	fmt.Print("lo que debe ir a la db " + string(res2B))
-
-	db, err := gorm.Open("sqlite3", "test.db")
-	if err != nil {
-		panic("failed to connect database")
-	}
-	defer db.Close()
-	if db.NewRecord(userDecode) == true {
-		fmt.Println("returns `true` as primary key is blank")
-	}
-	db.Create(&userDecode)
-	if db.NewRecord(userDecode) == true {
-		fmt.Println("return `false` after `user` created")
-	}
-
-}
-
 func main() {
 	initialMigration()
 	http.HandleFunc("/user", hello)
-	http.HandleFunc("/users", allUsers)
 
 	fmt.Printf("Starting server for testing HTTP POST...\n")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
