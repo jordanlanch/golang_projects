@@ -1,0 +1,18 @@
+FROM golang:1.11
+
+RUN export GOPATH=/go/src/github.com/jordanlanch/postAMQP_Sql
+RUN mkdir -p /go/src/github.com/jordanlanch/postAMQP_Sql
+WORKDIR /go/src/github.com/jordanlanch/postAMQP_Sql
+
+COPY main.go main.go
+
+RUN go get github.com/streadway/amqp/...
+RUN go get github.com/jinzhu/gorm/...
+RUN go get golang.org/x/crypto/bcrypt/...
+
+RUN go build -o main .
+RUN ls 
+
+CMD  ["go","run", "main"]
+
+EXPOSE 8080

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+</head>
+
+<body>
+  <div>
+    <form method="POST" action="/user">
+      <fieldset>
+        <label>Nombre: </label><input name="name" type="text" value="" placeholder="Digita tu Nombre" required />
+      </fieldset>
+      <fieldset>
+        <label>Correo: </label><input name="email" type="email" value="" placeholder="Digita tu Correo" required />
+      </fieldset>
+      <fieldset>
+        <label>Clave: </label><input name="password" type="password" value="" placeholder="Digita tu Clave" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+          title="La Clave debe contener un número, una Mayúscula, una Minúscula, y un tamañp igual o mayor a 8 caracteres"
+          required />
+      </fieldset>
+      <fieldset>
+        <label>Teléfono: </label><input name="phone" type="number" value="" placeholder="Digita tu Teléfono" required />
+      </fieldset>
+      <fieldset>
+        <label>Pais: </label><input name="country" type="text" placeholder="Digita tu Pais" value="" />
+      </fieldset>
+      <fieldset>
+        <label>Ciudad: </label><input name="city" type="text" placeholder="Digita tu Ciudad" value="" />
+      </fieldset>
+      <fieldset>
+        <label>Dirección: </label><input name="address" type="text" placeholder="Digita tu Dirección" value="" />
+      </fieldset>
+      <input type="submit" value="Enviar" />
+    </form>
+  </div>
+</body>
+
+</html>

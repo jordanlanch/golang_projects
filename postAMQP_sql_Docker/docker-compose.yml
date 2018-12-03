@@ -1,0 +1,35 @@
+version: '2'
+services:
+  usersmicroservice:
+    build: ./usersMicroService/.
+    depends_on:
+      - rabbit1
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./db/:/go/src/github.com/jordanlanch/postAMQP_Sql
+  phoenix:
+    build: ./phoenix/.
+    depends_on:
+      - rabbit1
+    ports:
+      - "8080:8080" 
+    volumes:
+      - ./db/:/go/src/github.com/jordanlanch/postAMQP_Sql   
+  readapi:
+    build: ./readApi/.
+    ports:
+      - "8082:8081"
+  rabbit1:
+    image: "rabbitmq:3-management"
+    hostname: "rabbit1"
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "15672-15682:15672"
+      - "5672-5682:5672"
+    labels:
+      NAME: "rabbitmq1"
