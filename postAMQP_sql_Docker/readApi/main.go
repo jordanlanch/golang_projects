@@ -20,7 +20,7 @@ type Post struct {
 
 func main() {
 	var client = &http.Client{Timeout: 10 * time.Second}
-	url := "http://127.0.0.1:8081/users"
+	url := "http://localhost:8081/users"
 
 	resp, err := client.Get(url)
 

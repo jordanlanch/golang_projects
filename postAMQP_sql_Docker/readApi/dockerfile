@@ -1,13 +1,14 @@
 FROM golang:1.11
 
-RUN export GOPATH=/go/src/github.com/jordanlanch/postAMQP_Sql_Docker
-RUN mkdir -p /go/src/github.com/jordanlanch/postAMQP_Sql_Docker
-WORKDIR /go/src/github.com/jordanlanch/postAMQP_Sql_Docker
-
+ENV GOPATH /go
+ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" \
+    && chmod -R 777 "$GOPATH"
+RUN mkdir -p /go/src/readApi
+WORKDIR /go/src/readApi
 COPY main.go main.go
 
-RUN go get github.com/streadway/amqp/...
 RUN go build -o main .
 RUN ls 
 
-CMD  ["go","run", "main"]
+CMD ["go", "run", "main.go"]

@@ -1,25 +1,41 @@
-version: '2'
+version: '3'
 services:
   usersmicroservice:
+    container_name: "usersMicroService"
     build: ./usersMicroService/.
     depends_on:
       - rabbit1
     ports:
       - "8081:8081"
+    command: go run main.go
     volumes:
-      - ./db/:/go/src/github.com/jordanlanch/postAMQP_Sql_Docker
+      - ./usersMicroService:/go/src/usersMicroService
+      - ./db:/go/src/db
+    working_dir: /go/src/usersMicroService
+    environment:
+      GOPATH: /go
   phoenix:
+    container_name: "phoenix"
     build: ./phoenix/.
     depends_on:
       - rabbit1
     ports:
-      - "8080:8080" 
+      - "8080:8080"
+    command: go run main.go
     volumes:
-      - ./db/:/go/src/github.com/jordanlanch/postAMQP_Sql_Docker   
+      - ./phoenix:/go/src/phoenix
+      - ./db:/go/src/db
+    working_dir: /go/src/phoenix
+    environment:
+      GOPATH: /go
   readapi:
+    container_name: "readApi"
     build: ./readApi/.
-    ports:
-      - "8082:8081"
+    command: go run main.go
+    volumes:
+      - ./readApi:/go/src/readApi
+    environment:
+      GOPATH: /go
   rabbit1:
     image: "rabbitmq:3-management"
     hostname: "rabbit1"
