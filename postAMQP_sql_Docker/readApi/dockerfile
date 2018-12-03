@@ -1,8 +1,8 @@
 FROM golang:1.11
 
-RUN export GOPATH=/go/src/github.com/jordanlanch/postAMQP_Sql
-RUN mkdir -p /go/src/github.com/jordanlanch/postAMQP_Sql
-WORKDIR /go/src/github.com/jordanlanch/postAMQP_Sql
+RUN export GOPATH=/go/src/github.com/jordanlanch/postAMQP_Sql_Docker
+RUN mkdir -p /go/src/github.com/jordanlanch/postAMQP_Sql_Docker
+WORKDIR /go/src/github.com/jordanlanch/postAMQP_Sql_Docker
 
 COPY main.go main.go
 
