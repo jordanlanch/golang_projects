@@ -1,6 +1,6 @@
 # projects
 Proyectos en Golang
 
-- ejercicios
+- ejercicios HackerRank
 - competencia de CodeWars
 - Post AMQP y Sqlite3
