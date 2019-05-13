@@ -6,10 +6,15 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/jordanlanch/proyect/projects/apitruora/persistence"
 )
 
 func main() {
-
+	// DB connection
+	db, err := persistence.MigrateDB()
+	if err != nil {
+		log.Fatal(err)
+	}
 	// Router
 	router := mux.NewRouter()
 
@@ -22,7 +27,7 @@ func main() {
 // GetCassandraTrackerRegisterByPlate endpoint to read data filter by plate
 func GetServerByDomain(w http.ResponseWriter, request *http.Request) {
 	params := mux.Vars(request)
-	plate := params["plate"]
+	plate := params["domain"]
 	trackerData, err := storecassandra.GetTrackingByPlate(plate)
 	if err != nil {
 		sendInternalServerError(err, w)
